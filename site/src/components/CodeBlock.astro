@@ -1,0 +1,73 @@
+---
+import type { Line } from "../lib/theme";
+
+type Props = { lines: Line[] };
+const { lines } = Astro.props;
+const text = lines.map((l) => l.text).join("\n");
+---
+
+<div class="block">
+  <pre><code>{lines.map((l) => <span class="line">{l.prompt && <span class="prompt" aria-hidden="true">{l.prompt}</span>}{l.text}</span>)}</code></pre>
+  <button type="button" class="copy" data-copy={text} hidden>Copy</button>
+</div>
+
+<script>
+  if (navigator.clipboard) {
+    for (const button of document.querySelectorAll<HTMLButtonElement>("button[data-copy]")) {
+      button.hidden = false;
+      button.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(button.dataset.copy ?? "");
+        button.textContent = "Copied";
+        setTimeout(() => (button.textContent = "Copy"), 1500);
+      });
+    }
+  }
+</script>
+
+<style>
+  .block {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 12px 12px 18px;
+    background: var(--base-bg-deep);
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+  }
+
+  pre {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    padding-block: 3px;
+    font: inherit;
+    font-size: 13.5px;
+    line-height: 22px;
+  }
+
+  .line {
+    display: block;
+  }
+
+  .prompt {
+    color: var(--base-fg-faint);
+    user-select: none;
+  }
+
+  .copy {
+    flex: none;
+    min-height: 32px;
+    padding: 0 12px;
+    background: var(--base-surface);
+    color: var(--base-fg);
+    border: 1px solid var(--ui-border);
+    border-radius: 4px;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .copy:hover {
+    border-color: var(--ui-base35);
+  }
+</style>

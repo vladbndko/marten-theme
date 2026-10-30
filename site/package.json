@@ -1,0 +1,14 @@
+{
+  "name": "marten-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/fira-code": "5.3.0",
+    "astro": "7.4.0"
+  }
+}

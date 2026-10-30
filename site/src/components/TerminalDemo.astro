@@ -1,0 +1,67 @@
+---
+import { palette, ports } from "../lib/theme";
+
+const output = ports.flatMap(({ meta, render }) =>
+  render(palette).map(({ path }) => ({ head: `${palette.slug.padEnd(8)} ${meta.id.padEnd(9)} `, path: `dist/${path}` })),
+);
+const cwd = `~/${palette.slug}-theme`;
+---
+
+<figure class="window">
+  <figcaption class="title">Ghostty — {cwd}</figcaption>
+  <div class="screen" role="img" aria-label="Terminal output of the theme build in Ghostty">
+    <div><span class="path">{cwd}</span> <span class="branch">main</span> <span class="prompt">❯</span> bun run build</div>
+    <div class="muted">$ bun src/build.ts</div>
+    {output.map((line) => <div class="out">{line.head}<span class="path">{line.path}</span></div>)}
+    <div><span class="path">{cwd}</span> <span class="branch">main</span> <span class="prompt">❯</span> <span class="cursor caret"></span></div>
+  </div>
+</figure>
+
+<style>
+  .window {
+    margin-left: clamp(0px, 6vw, 72px);
+    background: var(--base-bg);
+    border: 1px solid var(--ui-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgb(0 0 0 / 0.45);
+  }
+
+  .title {
+    padding: 8px 16px;
+    background: var(--base-surface);
+    font-size: 12px;
+    color: var(--base-fg-muted);
+    text-align: center;
+  }
+
+  .screen {
+    overflow-x: auto;
+    padding: 16px 20px;
+    font-size: 13px;
+    line-height: 21px;
+    white-space: pre;
+  }
+
+  .path {
+    color: var(--ansi-blue);
+  }
+
+  .branch {
+    color: var(--ansi-magenta);
+  }
+
+  .prompt {
+    color: var(--base-accent);
+  }
+
+  .out {
+    color: var(--ansi-white);
+  }
+
+  .caret {
+    width: 8px;
+    height: 17px;
+    vertical-align: -3px;
+  }
+</style>

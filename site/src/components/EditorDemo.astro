@@ -1,0 +1,141 @@
+---
+import { EDITOR_CURRENT, EDITOR_LINES } from "../data/content";
+---
+
+<figure class="window">
+  <figcaption class="tabs">
+    <span class="tabset">
+      <span class="tab active">furnace.ts</span>
+      <span class="tab">mill.ts</span>
+    </span>
+    <span class="app">Neovim</span>
+  </figcaption>
+  <div class="code" role="img" aria-label="TypeScript code highlighted with the Marten theme in Neovim">
+    {
+      EDITOR_LINES.map((tokens, i) => (
+        <div class:list={["row", { current: i === EDITOR_CURRENT }]}>
+          <span class="ln">{i + 1}</span>
+          <span>
+            {tokens.length === 0 ? " " : tokens.map(([cls, text]) => <span class={cls}>{text}</span>)}
+            {i === EDITOR_CURRENT && <span class="block" />}
+          </span>
+        </div>
+      ))
+    }
+  </div>
+  <div class="status">
+    <span class="left"><span class="mode">NORMAL</span><span class="file">furnace.ts</span></span>
+    <span class="right">typescript · {EDITOR_CURRENT + 1}:43</span>
+  </div>
+</figure>
+
+<style>
+  .window {
+    background: var(--base-bg);
+    border: 1px solid var(--ui-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgb(0 0 0 / 0.45);
+  }
+
+  .tabs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--base-bg-deep);
+    border-bottom: 1px solid var(--ui-border);
+    font-size: 12px;
+    color: var(--base-fg-muted);
+  }
+
+  .tabset {
+    display: flex;
+  }
+
+  .tab {
+    padding: 9px 16px;
+    border-top: 2px solid transparent;
+  }
+
+  .tab.active {
+    background: var(--base-bg);
+    color: var(--base-fg);
+    border-top-color: var(--base-accent);
+    border-right: 1px solid var(--ui-border);
+  }
+
+  .app {
+    padding-inline: 16px;
+  }
+
+  .code {
+    overflow-x: auto;
+    padding-block: 14px;
+    font-size: 13.5px;
+    line-height: 22px;
+  }
+
+  .row {
+    display: flex;
+    white-space: pre;
+  }
+
+  .row.current {
+    background: var(--base-bg-line);
+  }
+
+  .ln {
+    flex: none;
+    width: 48px;
+    padding-right: 16px;
+    text-align: right;
+    color: var(--base-fg-faint);
+  }
+
+  .current .ln {
+    color: var(--base-accent);
+    font-weight: 600;
+  }
+
+  .block {
+    display: inline-block;
+    width: 8px;
+    height: 18px;
+    vertical-align: -4px;
+    background: var(--base-accent);
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--base-surface);
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.04em;
+    color: var(--base-fg-muted);
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mode {
+    padding: 4px 10px;
+    background: var(--base-accent);
+    color: var(--base-bg);
+    font-weight: 600;
+  }
+
+  .file {
+    color: var(--base-fg);
+  }
+
+  .right {
+    padding: 4px 12px;
+  }
+</style>

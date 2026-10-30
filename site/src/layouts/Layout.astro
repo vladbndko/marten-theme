@@ -1,0 +1,40 @@
+---
+import "@fontsource/fira-code/400.css";
+import "@fontsource/fira-code/500.css";
+import "@fontsource/fira-code/600.css";
+import "@fontsource/fira-code/700.css";
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { cssVars, palette } from "../lib/theme";
+
+type Props = { title: string; description: string; current?: "ports" };
+const { title, description, current } = Astro.props;
+
+const favicon =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="${palette.hex("base.bg")}"/><rect x="11" y="6" width="10" height="20" fill="${palette.hex("base.accent")}"/></svg>`,
+  );
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={palette.hex("base.bgDeep")} />
+    <link rel="icon" href={favicon} />
+    <style is:inline set:html={cssVars}></style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header current={current} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

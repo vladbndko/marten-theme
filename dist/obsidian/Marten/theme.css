@@ -1,0 +1,142 @@
+body {
+  --font-monospace-theme: "FiraCode Nerd Font", "Fira Code", ui-monospace, Menlo, monospace;
+}
+
+.theme-dark {
+  --marten-bg-deep: #101113;
+  --marten-bg: #18191b;
+  --marten-bg-line: #1f2023;
+  --marten-surface: #212326;
+  --marten-selection: #33363a;
+  --marten-fg: #e3e3e0;
+  --marten-fg-muted: #95979a;
+  --marten-fg-faint: #7f8286;
+  --marten-accent: #ff8c2e;
+  --marten-accent-bright: #ffa95c;
+  --marten-yellow: #f5c04a;
+  --marten-red: #e85a44;
+  --marten-green: #9dbf7a;
+  --marten-blue: #7fa3c4;
+  --marten-magenta: #c98fa6;
+  --marten-cyan: #7fb8b5;
+  --marten-br-blue: #9fbbd6;
+
+  color-scheme: dark;
+
+  --color-base-00: var(--marten-bg);
+  --color-base-05: #1b1c1e;
+  --color-base-10: var(--marten-bg-line);
+  --color-base-20: var(--marten-surface);
+  --color-base-25: #26282b;
+  --color-base-30: var(--marten-selection);
+  --color-base-35: #45484d;
+  --color-base-40: #707377;
+  --color-base-50: #7f8286;
+  --color-base-60: var(--marten-fg-muted);
+  --color-base-70: #b3b4b3;
+  --color-base-100: var(--marten-fg);
+
+  --accent-h: 27;
+  --accent-s: 100%;
+  --accent-l: 59%;
+
+  --color-red-rgb: 232, 90, 68;
+  --color-red: var(--marten-red);
+  --color-orange-rgb: 242, 116, 97;
+  --color-orange: #f27461;
+  --color-yellow-rgb: 245, 192, 74;
+  --color-yellow: var(--marten-yellow);
+  --color-green-rgb: 157, 191, 122;
+  --color-green: var(--marten-green);
+  --color-cyan-rgb: 127, 184, 181;
+  --color-cyan: var(--marten-cyan);
+  --color-blue-rgb: 127, 163, 196;
+  --color-blue: var(--marten-blue);
+  --color-purple-rgb: 201, 143, 166;
+  --color-purple: var(--marten-magenta);
+  --color-pink-rgb: 219, 169, 189;
+  --color-pink: #dba9bd;
+
+  --background-primary: var(--marten-bg);
+  --background-primary-alt: var(--marten-bg-line);
+  --background-secondary: var(--marten-bg-deep);
+  --background-secondary-alt: var(--marten-surface);
+  --background-modifier-border: var(--marten-selection);
+  --background-modifier-border-hover: #45484d;
+  --background-modifier-border-focus: var(--marten-accent);
+  --background-modifier-hover: rgba(227, 227, 224, 0.06);
+  --background-modifier-active-hover: rgba(255, 140, 46, 0.15);
+  --background-modifier-form-field: var(--marten-bg-line);
+  --titlebar-background: var(--marten-bg-deep);
+  --titlebar-background-focused: var(--marten-surface);
+  --divider-color: var(--marten-selection);
+
+  --text-normal: var(--marten-fg);
+  --text-muted: var(--marten-fg-muted);
+  --text-faint: var(--marten-fg-faint);
+  --text-on-accent: var(--marten-bg);
+  --text-on-accent-inverted: var(--marten-bg);
+  --text-accent: var(--marten-accent);
+  --text-accent-hover: var(--marten-accent-bright);
+  --text-selection: rgba(255, 140, 46, 0.22);
+  --text-highlight-bg: rgba(255, 140, 46, 0.28);
+  --text-error: var(--marten-red);
+  --text-warning: var(--marten-yellow);
+  --text-success: var(--marten-green);
+
+  --interactive-normal: var(--marten-surface);
+  --interactive-hover: #26282b;
+  --interactive-accent: var(--marten-accent);
+  --interactive-accent-hover: var(--marten-accent-bright);
+  --checkbox-color: var(--marten-accent);
+  --checkbox-color-hover: var(--marten-accent-bright);
+  --checkbox-marker-color: var(--marten-bg);
+  --nav-item-color-active: var(--marten-fg);
+  --nav-item-background-active: var(--marten-selection);
+  --caret-color: var(--marten-accent);
+
+  --link-color: var(--marten-accent);
+  --link-color-hover: var(--marten-accent-bright);
+  --link-unresolved-color: var(--marten-accent);
+  --link-unresolved-opacity: 0.6;
+  --link-external-color: var(--marten-blue);
+  --link-external-color-hover: var(--marten-br-blue);
+
+  --h1-color: var(--marten-accent);
+  --h2-color: var(--marten-fg);
+  --h3-color: var(--marten-fg);
+  --h4-color: var(--marten-fg-muted);
+  --h5-color: var(--marten-fg-muted);
+  --h6-color: var(--marten-fg-muted);
+  --inline-title-color: var(--marten-fg);
+
+  --tag-color: var(--marten-cyan);
+  --tag-color-hover: #9ccecb;
+  --tag-background: rgba(127, 184, 181, 0.12);
+  --tag-background-hover: rgba(127, 184, 181, 0.2);
+
+  --table-border-color: var(--marten-selection);
+  --table-header-background: var(--marten-bg-line);
+  --blockquote-border-color: var(--marten-accent);
+  --hr-color: var(--marten-selection);
+
+  --code-background: var(--marten-bg-line);
+  --code-normal: var(--marten-fg);
+  --code-comment: var(--marten-fg-muted);
+  --code-keyword: var(--marten-accent);
+  --code-string: var(--marten-green);
+  --code-function: var(--marten-blue);
+  --code-value: var(--marten-magenta);
+  --code-tag: var(--marten-cyan);
+  --code-property: var(--marten-br-blue);
+  --code-operator: var(--marten-fg-muted);
+  --code-punctuation: var(--marten-fg-muted);
+  --code-important: var(--marten-red);
+
+  --graph-line: var(--marten-selection);
+  --graph-node: var(--marten-fg-muted);
+  --graph-node-unresolved: #707377;
+  --graph-node-focused: var(--marten-accent);
+  --graph-node-tag: var(--marten-cyan);
+  --graph-node-attachment: var(--marten-blue);
+}

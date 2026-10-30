@@ -1,0 +1,583 @@
+---
+import { VISIONS } from "../../../src/color";
+import { MIN_HINT, MIN_TEXT } from "../../../src/thresholds";
+import EditorDemo from "../components/EditorDemo.astro";
+import PortCard from "../components/PortCard.astro";
+import TerminalDemo from "../components/TerminalDemo.astro";
+import { ANSI, LAYERS, SYNTAX_EXAMPLES, TEXT } from "../data/content";
+import Layout from "../layouts/Layout.astro";
+import { href, kebab, onBg, palette, ports } from "../lib/theme";
+
+const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
+const bright = (key: string) => `br${cap(key)}`;
+
+const principles = [
+  {
+    title: "Neutral ground",
+    text: "The background is plain graphite with no tint. All the warmth sits in one orange: cursor, focus, keywords. Nothing else is orange.",
+  },
+  {
+    title: "Steel, not grey",
+    text: "Selection, borders and surfaces are cool, so the molten accent burns brighter against them.",
+  },
+  {
+    title: "Color is never the only signal",
+    text: `Error red and success green differ in lightness, ${onBg("status.error")}:1 against ${onBg("status.success")}:1, and the UI adds text or icons.`,
+  },
+  {
+    title: "Yellow is not the accent",
+    text: "Yellow is white-hot metal and means warnings. Orange is the melt and means cursor, focus and keywords. Every port keeps them apart.",
+  },
+];
+
+const stats = [
+  { value: `${onBg("base.fg")}:1`, label: "body text on the background" },
+  { value: `${MIN_TEXT}:1`, label: "minimum for any text color" },
+  { value: `${MIN_HINT}:1`, label: "hints, and colored text on the selection" },
+  { value: `${VISIONS.filter((v) => v !== "normal").length}`, label: "color-blind simulations per pair" },
+];
+
+const limits = palette.knownIssues.map((issue) => `${cap(issue.note)}.`);
+if (palette.variant === "dark") limits.push("Dark only. There is no light variant yet.");
+
+const portSearch = (keywords: string[], name: string, kind: string) => [name, kind, ...keywords].join(" ").toLowerCase();
+---
+
+<Layout
+  title={`${palette.name} — ${palette.tagline}`}
+  description={`${palette.name} is a dark color theme of ${palette.tagline} for ${ports.map((p) => p.meta.name).join(", ")}.`}
+>
+  <section class="wrap hero">
+    <div class="pitch">
+      <p class="label">Color theme for terminals and editors</p>
+      <h1>{palette.name}<span class="cursor title-cursor" aria-hidden="true"></span></h1>
+      <p class="tagline">{cap(palette.tagline)}.</p>
+      <p class="lede">
+        Named after the open-hearth furnace of the steel mills in Dnipro. The ground is the cold grey of the mill floor. The one
+        warm color is the glow of {palette.accentName}.
+      </p>
+      <div class="actions">
+        <a class="button button-primary" href={href("#ports")}>Install</a>
+        <a class="button button-ghost" href={href("#palette")}>See the palette</a>
+      </div>
+    </div>
+    <div class="demo">
+      <EditorDemo />
+      <TerminalDemo />
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="principles-title">
+    <div class="wrap section">
+      <h2 id="principles-title" class="h2 narrow">One hot color on cold steel</h2>
+      <ol class="principles">
+        {
+          principles.map((p, i) => (
+            <li>
+              <p class="num muted">{String(i + 1).padStart(2, "0")}</p>
+              <h3>{p.title}</h3>
+              <p class="muted">{p.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section id="palette" class="wrap section" aria-labelledby="palette-title">
+    <div class="intro">
+      <h2 id="palette-title" class="h2">The palette</h2>
+      <p class="lede">
+        Contrast is the WCAG 2 ratio against the background {palette.hex("base.bg")}. Every port reads these values from one file.
+      </p>
+    </div>
+
+    <div class="split">
+      <div class="group">
+        <h3 class="label">Layers</h3>
+        <ul class="layers">
+          {
+            LAYERS.map((l) => (
+              <li style={`background: ${palette.hex(l.ref)}`}>
+                <span>
+                  {l.name} <span class="soft">{palette.hex(l.ref)}</span>
+                </span>
+                <span class="soft">{l.role}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="group">
+        <h3 class="label">Text</h3>
+        <ul class="text-roles">
+          {
+            TEXT.map((t) => (
+              <li>
+                <span class="sample" style={`color: ${palette.hex(t.ref)}`}>
+                  {t.name}
+                </span>
+                <span class="muted small">
+                  {palette.hex(t.ref)} · {onBg(t.ref)}:1 · {t.role}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3 class="label">Terminal — 16 colors, normal and bright</h3>
+      <ul class="ansi">
+        {
+          ANSI.map((a) => (
+            <li>
+              <span class="chip" style={`background: ${palette.hex(`ansi.${a.key}`)}`} />
+              <span class="chip bright" style={`background: ${palette.hex(`ansi.${bright(a.key)}`)}`} />
+              <span class="info">
+                <span class="name">{a.key}</span>
+                <span class="muted note">{a.note}</span>
+                <span class="muted">
+                  {palette.hex(`ansi.${a.key}`)}
+                  {a.isText && ` · ${onBg(`ansi.${a.key}`)}`}
+                </span>
+                <span class="muted">
+                  {palette.hex(`ansi.${bright(a.key)}`)} · {onBg(`ansi.${bright(a.key)}`)}
+                </span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="group">
+      <h3 class="label">Syntax — every role is an ANSI color, so all ports agree</h3>
+      <dl class="syntax">
+        {
+          Object.keys(palette.syntax).map((key) => (
+            <div>
+              <dt class="muted">{key}</dt>
+              <dd style={`color: var(--syntax-${kebab(key)})`} class:list={{ c: key === "comment" }}>
+                {SYNTAX_EXAMPLES[key] ?? palette.hex(`syntax.${key}`)}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section id="ports" class="band" aria-labelledby="ports-title">
+    <div class="wrap section ports">
+      <div class="ports-head">
+        <div class="intro">
+          <h2 id="ports-title" class="h2">Ports</h2>
+          <p class="lede">
+            Every port is generated from palettes/{palette.slug}.json and committed to dist/. Pick your app for the install steps.
+          </p>
+        </div>
+        <div class="search" data-search-box hidden>
+          <label for="port-search" class="muted small">Search ports</label>
+          <div class="field">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.2-4.2"></path></svg>
+            <input id="port-search" type="search" placeholder="Ghostty, editor, terminal…" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+      <p class="muted small" aria-live="polite" data-search-summary data-total={ports.length}>{ports.length} ports</p>
+      <ul class="grid">
+        {
+          ports.map(({ meta }) => (
+            <li data-port={portSearch(meta.keywords, meta.name, meta.kind)}>
+              <PortCard meta={meta} />
+            </li>
+          ))
+        }
+      </ul>
+      <p class="empty muted" data-search-empty hidden>No port matches “<span data-search-query></span>” yet.</p>
+    </div>
+  </section>
+
+  <section id="checks" class="wrap section" aria-labelledby="checks-title">
+    <div class="intro">
+      <h2 id="checks-title" class="h2">Checked before every release</h2>
+      <p class="lede">
+        bun run check measures every text color against its background and simulates three types of color blindness. A release
+        ships only when it passes.
+      </p>
+    </div>
+    <ul class="stats">
+      {
+        stats.map((s) => (
+          <li>
+            <span class="value">{s.value}</span>
+            <span class="muted small">{s.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="group">
+      <h3 class="label">Known limits</h3>
+      <ul class="limits">
+        {
+          limits.map((l) => (
+            <li>
+              <span class="bang" aria-hidden="true">!</span>
+              <span>{l}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const box = document.querySelector<HTMLElement>("[data-search-box]");
+  const input = document.querySelector<HTMLInputElement>("#port-search");
+  const summary = document.querySelector<HTMLElement>("[data-search-summary]");
+  const empty = document.querySelector<HTMLElement>("[data-search-empty]");
+  const query = document.querySelector<HTMLElement>("[data-search-query]");
+  const items = [...document.querySelectorAll<HTMLElement>("[data-port]")];
+
+  if (box && input && summary && empty && query) {
+    box.hidden = false;
+    const total = items.length;
+    input.addEventListener("input", () => {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      for (const item of items) {
+        const hit = !q || (item.dataset.port ?? "").includes(q);
+        item.hidden = !hit;
+        if (hit) shown++;
+      }
+      summary.textContent = q ? `${shown} of ${total} ports` : `${total} ports`;
+      query.textContent = input.value.trim();
+      empty.hidden = shown > 0;
+    });
+  }
+</script>
+
+<style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 56px;
+    padding-block: clamp(56px, 8vw, 104px) clamp(56px, 7vw, 96px);
+  }
+
+  .pitch {
+    flex: 1 1 400px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  h1 {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    font-size: clamp(56px, 9vw, 104px);
+    line-height: 0.95;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--ansi-br-white);
+  }
+
+  .title-cursor {
+    width: 0.42em;
+    height: 0.82em;
+    margin-bottom: 0.04em;
+  }
+
+  .tagline {
+    font-size: 21px;
+    line-height: 1.45;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 8px;
+  }
+
+  .demo {
+    flex: 1 1 540px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .narrow {
+    max-width: 22ch;
+  }
+
+  .principles {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  .principles li {
+    flex: 1 1 230px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 18px;
+    border-top: 1px solid var(--ui-border);
+    font-size: 14px;
+  }
+
+  .principles h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .num {
+    font-size: 12px;
+  }
+
+  .split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+
+  .split > .group {
+    flex: 1 1 460px;
+  }
+
+  .group {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .small {
+    font-size: 13px;
+  }
+
+  .layers {
+    list-style: none;
+    padding: 0;
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+
+  .layers li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 16px;
+    padding: 16px 18px;
+  }
+
+  .soft {
+    color: var(--ansi-white);
+  }
+
+  .text-roles {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--ui-border);
+  }
+
+  .text-roles li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 16px;
+    padding-block: 14px;
+    border-bottom: 1px solid var(--ui-border);
+  }
+
+  .sample {
+    font-size: 26px;
+    font-weight: 600;
+  }
+
+  .ansi {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+    gap: 12px;
+  }
+
+  .ansi li {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .chip {
+    height: 56px;
+  }
+
+  .chip.bright {
+    height: 28px;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .name {
+    font-weight: 600;
+  }
+
+  .note {
+    margin-bottom: 6px;
+  }
+
+  .syntax {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    column-gap: 40px;
+    font-size: 14px;
+  }
+
+  .syntax div {
+    display: flex;
+    gap: 16px;
+    padding-block: 10px;
+    border-bottom: 1px solid var(--ui-border);
+  }
+
+  .syntax dt {
+    flex: none;
+    width: 12ch;
+  }
+
+  .syntax dd {
+    margin: 0;
+  }
+
+  .ports {
+    gap: 32px;
+  }
+
+  .ports-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px 40px;
+  }
+
+  .ports-head .intro {
+    flex: 1 1 420px;
+  }
+
+  .search {
+    flex: 0 1 380px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .field {
+    position: relative;
+    color: var(--base-fg-muted);
+  }
+
+  .field svg {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+  }
+
+  input {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px 0 42px;
+    background: var(--base-bg);
+    color: var(--base-fg);
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 14px;
+  }
+
+  input::placeholder {
+    color: var(--ui-text-faint);
+  }
+
+  .grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }
+
+  .empty {
+    padding: 32px;
+    border: 1px dashed var(--ui-border);
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  .stats {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .stats li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px;
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+  }
+
+  .value {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .limits {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--ui-border);
+    font-size: 14px;
+  }
+
+  .limits li {
+    display: flex;
+    gap: 16px;
+    padding-block: 12px;
+    border-bottom: 1px solid var(--ui-border);
+  }
+
+  .bang {
+    flex: none;
+    color: var(--status-warning);
+  }
+</style>

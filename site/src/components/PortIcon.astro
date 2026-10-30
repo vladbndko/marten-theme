@@ -1,0 +1,16 @@
+---
+type Props = { d: string; size?: number; stroke?: number };
+const { d, size = 24, stroke = 1.75 } = Astro.props;
+---
+
+<svg
+  aria-hidden="true"
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill="none"
+  stroke="currentColor"
+  stroke-width={stroke}
+  stroke-linecap="round"
+  stroke-linejoin="round"><path d={d}></path></svg
+>

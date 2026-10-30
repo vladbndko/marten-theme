@@ -1,0 +1,98 @@
+{
+  "name": "Marten",
+  "slug": "marten",
+  "variant": "dark",
+  "tagline": "graphite, steel and molten metal",
+  "accentName": "molten metal",
+  "base": {
+    "bgDeep": "#101113",
+    "bg": "#18191b",
+    "bgLine": "#1f2023",
+    "surface": "#212326",
+    "selection": "#33363a",
+    "fg": "#e3e3e0",
+    "fgMuted": "#95979a",
+    "fgFaint": "#707377",
+    "accent": "#ff8c2e",
+    "accentHover": "#ffa95c"
+  },
+  "ansi": {
+    "black": "#26282b",
+    "red": "#e85a44",
+    "green": "#9dbf7a",
+    "yellow": "#f5c04a",
+    "blue": "#7fa3c4",
+    "magenta": "#c98fa6",
+    "cyan": "#7fb8b5",
+    "white": "#c8c9c6",
+    "brBlack": "#707377",
+    "brRed": "#f27461",
+    "brGreen": "#b5d396",
+    "brYellow": "#ffcf66",
+    "brBlue": "#9fbbd6",
+    "brMagenta": "#dba9bd",
+    "brCyan": "#9ccecb",
+    "brWhite": "#f7f7f5"
+  },
+  "ui": {
+    "border": "#33363a",
+    "textFaint": "#7f8286",
+    "diffAdded": "#262d22",
+    "diffRemoved": "#372220",
+    "diffChanged": "#272d33",
+    "diffText": "#3a4652",
+    "search": "#46301f",
+    "base05": "#1b1c1e",
+    "base35": "#45484d",
+    "base70": "#b3b4b3"
+  },
+  "syntax": {
+    "keyword": "{base.accent}",
+    "string": "{ansi.green}",
+    "function": "{ansi.blue}",
+    "number": "{ansi.magenta}",
+    "type": "{ansi.cyan}",
+    "variable": "{base.fg}",
+    "comment": "{base.fgMuted}",
+    "punctuation": "{base.fgMuted}",
+    "property": "{ansi.brBlue}",
+    "special": "{ansi.brYellow}"
+  },
+  "status": {
+    "error": "{ansi.red}",
+    "warning": "{ansi.yellow}",
+    "info": "{ansi.blue}",
+    "hint": "{ansi.cyan}",
+    "success": "{ansi.green}"
+  },
+  "knownIssues": [
+    {
+      "pair": [
+        "status.info",
+        "status.hint"
+      ],
+      "note": "blue and cyan are close under tritanopia; info and hint also differ by icon"
+    },
+    {
+      "pair": [
+        "syntax.function",
+        "syntax.type"
+      ],
+      "note": "blue and cyan are close under tritanopia; needs blue, cyan and green tuned together"
+    },
+    {
+      "pair": [
+        "syntax.string",
+        "syntax.type"
+      ],
+      "note": "green and cyan are close under tritanopia"
+    },
+    {
+      "pair": [
+        "ui.diffAdded",
+        "ui.diffRemoved"
+      ],
+      "note": "diff backgrounds are close under deuteranopia; diffs also show +/- markers"
+    }
+  ]
+}

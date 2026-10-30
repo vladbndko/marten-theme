@@ -1,0 +1,106 @@
+---
+import type { PortMeta } from "../../../src/ports/meta";
+import { portHref } from "../lib/theme";
+import PortIcon from "./PortIcon.astro";
+
+type Props = { meta: PortMeta; compact?: boolean };
+const { meta, compact = false } = Astro.props;
+---
+
+<a class:list={["card", { compact }]} href={portHref(meta.id)}>
+  <span class="icon"><PortIcon d={meta.icon} size={compact ? 20 : 24} /></span>
+  <span class="text">
+    <span class="name">{meta.name}</span>
+    <span class="kind">{meta.kind}</span>
+  </span>
+  <span class="arrow" aria-hidden="true">→</span>
+</a>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+    min-height: 156px;
+    padding: 20px;
+    background: var(--base-bg);
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+    color: var(--base-fg);
+    text-decoration: none;
+  }
+
+  .card:hover {
+    background: var(--base-bg-line);
+    border-color: var(--base-accent);
+    color: var(--base-fg);
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--base-surface);
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .name {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .kind {
+    font-size: 13px;
+    color: var(--base-fg-muted);
+  }
+
+  .arrow {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--base-fg-muted);
+  }
+
+  .card:hover .arrow {
+    color: var(--base-accent);
+  }
+
+  .compact {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+    min-height: 0;
+    padding: 14px 44px 14px 16px;
+  }
+
+  .compact .icon {
+    width: 40px;
+    height: 40px;
+    flex: none;
+  }
+
+  .compact .name {
+    font-size: 15px;
+  }
+
+  .compact .arrow {
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    font-size: 15px;
+  }
+</style>

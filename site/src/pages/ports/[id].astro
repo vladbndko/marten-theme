@@ -1,0 +1,285 @@
+---
+import CodeBlock from "../../components/CodeBlock.astro";
+import PortCard from "../../components/PortCard.astro";
+import PortIcon from "../../components/PortIcon.astro";
+import Layout from "../../layouts/Layout.astro";
+import { href, palette, ports, stepLines } from "../../lib/theme";
+import type { PortMeta } from "../../../../src/ports/meta";
+
+export function getStaticPaths() {
+  return ports.map(({ meta }) => ({ params: { id: meta.id }, props: { meta } }));
+}
+
+type Props = { meta: PortMeta };
+const { meta } = Astro.props;
+const others = ports.filter((p) => p.meta.id !== meta.id);
+---
+
+<Layout title={`${palette.name} for ${meta.name}`} description={`${meta.intro} Install steps for the ${palette.name} theme.`} current="ports">
+  <div class="wrap page">
+    <a class="back" href={href("#ports")}>← All ports</a>
+
+    <div class="head">
+      <span class="icon"><PortIcon d={meta.icon} size={40} stroke={1.5} /></span>
+      <div class="titles">
+        <p class="label">{meta.kind}</p>
+        <h1>{palette.name} for {meta.name}</h1>
+        <p class="muted file">{meta.file}</p>
+      </div>
+    </div>
+
+    <p class="intro-text">{meta.intro}</p>
+
+    <div class="body">
+      <section class="steps" aria-labelledby="steps-title">
+        <h2 id="steps-title">Install</h2>
+        <ol>
+          {
+            meta.steps.map((step, i) => {
+              const lines = stepLines(step);
+              return (
+                <li>
+                  <span class="n" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  <div class="step">
+                    <h3>{step.title}</h3>
+                    {step.text && <p class="muted">{step.text}</p>}
+                    {lines.length > 0 && <CodeBlock lines={lines} />}
+                  </div>
+                </li>
+              );
+            })
+          }
+        </ol>
+      </section>
+
+      <aside>
+        <section class="box" aria-labelledby="covers-title">
+          <h2 id="covers-title" class="label">Covers</h2>
+          <ul class="covers">
+            {
+              meta.covers.map((c) => (
+                <li>
+                  <span class="plus" aria-hidden="true">+</span>
+                  <span>{c}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+        <section class="box" aria-labelledby="notes-title">
+          <h2 id="notes-title" class="label">Good to know</h2>
+          <ul class="notes">{meta.notes.map((n) => <li>{n}</li>)}</ul>
+        </section>
+      </aside>
+    </div>
+
+    {
+      others.length > 0 && (
+        <section class="others" aria-labelledby="others-title">
+          <h2 id="others-title">Other ports</h2>
+          <ul>
+            {others.map(({ meta: m }) => (
+              <li>
+                <PortCard meta={m} compact />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </div>
+</Layout>
+
+<style>
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding-block: 32px clamp(64px, 8vw, 104px);
+  }
+
+  .back {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--base-fg-muted);
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .back:hover {
+    color: var(--base-fg);
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .icon {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: var(--base-surface);
+    border: 1px solid var(--ui-border);
+    border-radius: 12px;
+  }
+
+  .titles {
+    flex: 1 1 320px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ansi-br-white);
+  }
+
+  .file {
+    font-size: 14px;
+  }
+
+  .intro-text {
+    max-width: 60ch;
+    font-size: 17px;
+  }
+
+  .body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 40px 56px;
+  }
+
+  .steps {
+    flex: 999 1 560px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  h2 {
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  ol {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  ol li {
+    display: flex;
+    gap: 18px;
+  }
+
+  .n {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .step {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 3px;
+    font-size: 14px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  aside {
+    flex: 1 1 280px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    border: 1px solid var(--ui-border);
+    border-radius: 6px;
+  }
+
+  .box .label {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .covers,
+  .notes {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .covers li {
+    display: flex;
+    gap: 10px;
+  }
+
+  .plus {
+    flex: none;
+    color: var(--status-success);
+  }
+
+  .notes {
+    gap: 10px;
+    color: var(--ansi-white);
+  }
+
+  .others {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 40px;
+    border-top: 1px solid var(--ui-border);
+  }
+
+  .others ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+</style>

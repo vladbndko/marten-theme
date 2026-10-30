@@ -1,0 +1,43 @@
+---
+import { palette } from "../lib/theme";
+---
+
+<footer class="footer">
+  <div class="wrap row">
+    <span class="logo"><span class="mark" aria-hidden="true"></span>{palette.slug}</span>
+    <span>Every color on this page comes from palettes/{palette.slug}.json.</span>
+    <span>MIT License · vladbndko</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--base-bg-deep);
+    border-top: 1px solid var(--ui-border);
+    font-size: 13px;
+    color: var(--base-fg-muted);
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 32px;
+    padding-block: 32px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--base-fg);
+    font-weight: 600;
+  }
+
+  .mark {
+    width: 8px;
+    height: 16px;
+    background: var(--base-accent);
+  }
+</style>

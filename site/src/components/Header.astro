@@ -1,0 +1,74 @@
+---
+import { href } from "../lib/theme";
+
+type Props = { current?: "ports" };
+const { current } = Astro.props;
+---
+
+<header class="header">
+  <div class="wrap row">
+    <a class="logo" href={href()}>
+      <span class="mark" aria-hidden="true"></span>
+      <span>marten</span>
+    </a>
+    <nav aria-label="Main">
+      <a href={href("#palette")}>Palette</a>
+      <a href={href("#ports")} aria-current={current === "ports" ? "page" : undefined}>Ports</a>
+      <a href={href("#checks")}>Checks</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    background: var(--base-bg-deep);
+    border-bottom: 1px solid var(--ui-border);
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px 32px;
+    padding-block: 10px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    color: var(--base-fg);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 17px;
+  }
+
+  .mark {
+    width: 10px;
+    height: 20px;
+    background: var(--base-accent);
+    border-radius: 1px;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 24px;
+    font-size: 14px;
+  }
+
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--base-fg-muted);
+    text-decoration: none;
+  }
+
+  nav a:hover,
+  nav a[aria-current] {
+    color: var(--base-fg);
+  }
+</style>

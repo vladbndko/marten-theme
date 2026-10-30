@@ -1,0 +1,150 @@
+---
+import PortCard from "../components/PortCard.astro";
+import Layout from "../layouts/Layout.astro";
+import { href, palette, ports } from "../lib/theme";
+
+const cwd = `~/${palette.slug}-theme`;
+---
+
+<Layout title={`Page not found — ${palette.name}`} description="This page does not exist.">
+  <div class="wrap page">
+    <div class="head">
+      <p class="label">Error 404</p>
+      <h1>Page not found<span class="cursor title-cursor" aria-hidden="true"></span></h1>
+      <p class="lede">This page has cooled down, or it was never cast. Check the address, or start again from the home page.</p>
+    </div>
+
+    <figure class="window">
+      <figcaption class="title">Ghostty — {cwd}</figcaption>
+      <div class="screen">
+        <div><span class="path">{cwd}</span> <span class="branch">main</span> <span class="prompt">❯</span> open <span data-missing>this-page</span></div>
+        <div class="error">open: <span data-missing>this-page</span>: No such file or directory</div>
+        <div><span class="path">{cwd}</span> <span class="branch">main</span> <span class="prompt">❯</span> <span class="cursor caret" aria-hidden="true"></span></div>
+      </div>
+    </figure>
+
+    <div class="actions">
+      <a class="button button-primary" href={href()}>Back to home</a>
+      <a class="button button-ghost" href={href("#ports")}>All ports</a>
+    </div>
+
+    <section class="ports" aria-labelledby="ports-title">
+      <h2 id="ports-title" class="label">Looking for a port?</h2>
+      <ul>
+        {
+          ports.map(({ meta }) => (
+            <li>
+              <PortCard meta={meta} compact />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  const path = decodeURIComponent(location.pathname);
+  for (const el of document.querySelectorAll<HTMLElement>("[data-missing]")) el.textContent = path;
+</script>
+
+<style>
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-block: clamp(56px, 8vw, 104px);
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  h1 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 6px;
+    font-size: clamp(40px, 7vw, 80px);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--ansi-br-white);
+  }
+
+  .title-cursor {
+    width: 0.42em;
+    height: 0.82em;
+    margin-bottom: 0.04em;
+  }
+
+  .window {
+    max-width: 720px;
+    background: var(--base-bg);
+    border: 1px solid var(--ui-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .title {
+    padding: 8px 16px;
+    background: var(--base-surface);
+    font-size: 12px;
+    color: var(--base-fg-muted);
+    text-align: center;
+  }
+
+  .screen {
+    overflow-x: auto;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    line-height: 22px;
+    white-space: pre;
+  }
+
+  .path {
+    color: var(--ansi-blue);
+  }
+
+  .branch {
+    color: var(--ansi-magenta);
+  }
+
+  .prompt {
+    color: var(--base-accent);
+  }
+
+  .error {
+    color: var(--status-error);
+  }
+
+  .caret {
+    width: 8px;
+    height: 17px;
+    vertical-align: -3px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .ports {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 40px;
+    border-top: 1px solid var(--ui-border);
+  }
+
+  .ports ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+</style>
