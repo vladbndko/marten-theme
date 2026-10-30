@@ -14,7 +14,7 @@ for (const palette of loadPalettes(join(ROOT, "palettes"))) {
       const file = join(DIST, path);
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, content);
-      console.log(`${palette.slug.padEnd(8)} ${meta.id.padEnd(9)} dist/${path}`);
+      console.log(`${palette.slug.padEnd(8)} ${meta.id.padEnd(12)} dist/${path}`);
     }
   }
 }

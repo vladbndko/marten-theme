@@ -3,7 +3,7 @@ import CodeBlock from "../../components/CodeBlock.astro";
 import PortCard from "../../components/PortCard.astro";
 import PortIcon from "../../components/PortIcon.astro";
 import Layout from "../../layouts/Layout.astro";
-import { href, palette, ports, stepLines } from "../../lib/theme";
+import { cloneStep, href, palette, ports, repoFile, stepLines } from "../../lib/theme";
 import type { PortMeta } from "../../../../src/ports/meta";
 
 export function getStaticPaths() {
@@ -13,6 +13,7 @@ export function getStaticPaths() {
 type Props = { meta: PortMeta };
 const { meta } = Astro.props;
 const others = ports.filter((p) => p.meta.id !== meta.id);
+const steps = [cloneStep, ...meta.steps];
 ---
 
 <Layout title={`${palette.name} for ${meta.name}`} description={`${meta.intro} Install steps for the ${palette.name} theme.`} current="ports">
@@ -24,7 +25,7 @@ const others = ports.filter((p) => p.meta.id !== meta.id);
       <div class="titles">
         <p class="label">{meta.kind}</p>
         <h1>{palette.name} for {meta.name}</h1>
-        <p class="muted file">{meta.file}</p>
+        <p class="muted file"><a href={repoFile(meta.file)}>{meta.file}</a></p>
       </div>
     </div>
 
@@ -35,7 +36,7 @@ const others = ports.filter((p) => p.meta.id !== meta.id);
         <h2 id="steps-title">Install</h2>
         <ol>
           {
-            meta.steps.map((step, i) => {
+            steps.map((step, i) => {
               const lines = stepLines(step);
               return (
                 <li>

@@ -2,7 +2,7 @@
 import { palette, ports } from "../lib/theme";
 
 const output = ports.flatMap(({ meta, render }) =>
-  render(palette).map(({ path }) => ({ head: `${palette.slug.padEnd(8)} ${meta.id.padEnd(9)} `, path: `dist/${path}` })),
+  render(palette).map(({ path }) => ({ head: `${palette.slug.padEnd(8)} ${meta.id.padEnd(12)} `, path: `dist/${path}` })),
 );
 const cwd = `~/${palette.slug}-theme`;
 ---

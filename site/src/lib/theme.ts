@@ -1,3 +1,4 @@
+import pkg from "../../../package.json";
 import data from "../../../palettes/marten.json";
 import { contrast, ratio } from "../../../src/color";
 import { createPalette, type PaletteFile } from "../../../src/palette";
@@ -21,6 +22,15 @@ export const onBg = (ref: string) => ratio(contrast(palette.hex(ref), palette.he
 export const href = (path = "") => `${import.meta.env.BASE_URL.replace(/\/$/, "")}/${path}`;
 
 export const portHref = (id: string) => href(`ports/${id}/`);
+
+export const repo = pkg.repository.url.replace(/\.git$/, "");
+
+export const repoFile = (path: string) => `${repo}/blob/main/${path}`;
+
+export const cloneStep: Step = {
+  title: "Get the files",
+  shell: [`git clone ${pkg.repository.url}`, `cd ${pkg.name}`],
+};
 
 export type Line = { prompt: string; text: string };
 

@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Marten",
+  "version": "0.1.0",
+  "description": "Marten, a dark theme of graphite, steel and molten metal.",
+  "theme": {
+    "colors": {
+      "frame": [16, 17, 19],
+      "frame_inactive": [16, 17, 19],
+      "frame_incognito": [16, 17, 19],
+      "frame_incognito_inactive": [16, 17, 19],
+      "background_tab": [16, 17, 19],
+      "background_tab_inactive": [16, 17, 19],
+      "background_tab_incognito": [16, 17, 19],
+      "background_tab_incognito_inactive": [16, 17, 19],
+      "toolbar": [24, 25, 27],
+      "toolbar_text": [227, 227, 224],
+      "toolbar_button_icon": [149, 151, 154],
+      "tab_text": [227, 227, 224],
+      "tab_background_text": [149, 151, 154],
+      "tab_background_text_inactive": [127, 130, 134],
+      "tab_background_text_incognito": [149, 151, 154],
+      "tab_background_text_incognito_inactive": [127, 130, 134],
+      "bookmark_text": [149, 151, 154],
+      "omnibox_background": [33, 35, 38],
+      "omnibox_text": [227, 227, 224],
+      "ntp_background": [24, 25, 27],
+      "ntp_text": [227, 227, 224],
+      "ntp_link": [255, 140, 46],
+      "ntp_header": [51, 54, 58]
+    }
+  }
+}

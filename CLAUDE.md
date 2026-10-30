@@ -26,6 +26,7 @@ A refactor that should not change output must produce a byte-identical `dist/`: 
 - `ansi.yellow` is not `base.accent`: yellow means warnings, orange means cursor, focus and keywords. Keep them separate in every port.
 - `base.fgFaint` (3.7:1) is for line numbers and decoration. Where an app draws real text with its faint color (Obsidian `--text-faint`, Zed placeholders), the port uses `ui.textFaint` (4.6:1).
 - `ui.base05`, `ui.base35`, `ui.base70` exist only for Obsidian's `--color-base-*` scale.
+- `ui.diffAddedWord` and `ui.diffRemovedWord` highlight changed words inside a diff line (Claude Code, VS Code).
 - The Obsidian theme styles dark mode only.
 
 ## Verifying a port
@@ -33,7 +34,12 @@ A refactor that should not change output must produce a byte-identical `dist/`: 
 - Ghostty: `/Applications/Ghostty.app/Contents/MacOS/ghostty +validate-config --config-file=dist/ghostty/marten`
 - Neovim: `nvim --headless -c 'set rtp^=dist/nvim' -c 'colorscheme marten' -c 'qa!'` prints nothing on success.
 - Zed: every key under `style` must exist in the schema `https://zed.dev/schema/themes/v0.2.0.json`.
-- Obsidian has no validator; the user checks it in the app.
+- iTerm2: `plutil -lint dist/iterm2/marten.itermcolors`.
+- Claude Code: every key under `overrides` must appear in the installed binary (`~/.local/share/claude/versions/<latest>`); unknown keys are ignored silently.
+- Chrome: `theme.colors` keys only from `kOverwritableColorTable` in Chromium's `browser_theme_pack.cc`.
+- VS Code: every JSON file parses, and every key under `colors` is on https://code.visualstudio.com/api/references/theme-color.
+- Slack: `marten.txt` holds 4 colors and `marten-legacy.txt` holds 8.
+- Obsidian, Slack, VS Code, Chrome and iTerm2 have no runnable check here; the user checks them in the app.
 
 ## Website
 

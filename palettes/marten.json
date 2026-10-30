@@ -39,6 +39,8 @@
     "textFaint": "#7f8286",
     "diffAdded": "#262d22",
     "diffRemoved": "#372220",
+    "diffAddedWord": "#34422b",
+    "diffRemovedWord": "#52302a",
     "diffChanged": "#272d33",
     "diffText": "#3a4652",
     "search": "#46301f",
@@ -93,6 +95,13 @@
         "ui.diffRemoved"
       ],
       "note": "diff backgrounds are close under deuteranopia; diffs also show +/- markers"
+    },
+    {
+      "pair": [
+        "ui.diffAddedWord",
+        "ui.diffRemovedWord"
+      ],
+      "note": "diff word highlights are close under deuteranopia; diffs also show +/- markers"
     }
   ]
 }

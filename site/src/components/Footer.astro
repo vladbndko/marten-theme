@@ -1,12 +1,12 @@
 ---
-import { palette } from "../lib/theme";
+import { palette, repo } from "../lib/theme";
 ---
 
 <footer class="footer">
   <div class="wrap row">
     <span class="logo"><span class="mark" aria-hidden="true"></span>{palette.slug}</span>
     <span>Every color on this page comes from palettes/{palette.slug}.json.</span>
-    <span>MIT License · vladbndko</span>
+    <span>MIT License · <a href={repo}>{new URL(repo).pathname.slice(1)}</a></span>
   </div>
 </footer>
 

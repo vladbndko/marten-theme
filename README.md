@@ -1,6 +1,6 @@
 # Marten
 
-A dark color theme of graphite, steel and molten metal, for terminals and code editors.
+A dark color theme of graphite, steel and molten metal, for terminals, code editors and the apps around them.
 
 The name comes from the *marten* - the open-hearth furnace (Siemens–Martin process) of the steel mills in Dnipro, Ukraine. The background is the graphite and cold steel of the mill floor; the single warm color is the orange glow of molten metal. The rest of the palette comes from the same place: mill scale, patina, tempered steel, temper colors and cooling water.
 
@@ -11,11 +11,23 @@ Every port is generated from one palette file, and every color is checked for co
 | App | File | Install |
 |---|---|---|
 | [Ghostty](#ghostty) | [`dist/ghostty/marten`](dist/ghostty/marten) | theme file |
+| [iTerm2](#iterm2) | [`dist/iterm2/marten.itermcolors`](dist/iterm2/marten.itermcolors) | color preset |
 | [Neovim](#neovim) | [`dist/nvim/colors/marten.lua`](dist/nvim/colors/marten.lua) | colorscheme |
-| [Obsidian](#obsidian) | [`dist/obsidian/Marten/`](dist/obsidian/Marten) | community theme folder, dark mode only |
 | [Zed](#zed) | [`dist/zed/marten.json`](dist/zed/marten.json) | theme file |
+| [VS Code](#vs-code) | [`dist/vscode/marten/`](dist/vscode/marten) | extension, packaged locally |
+| [Claude Code](#claude-code) | [`dist/claude-code/marten.json`](dist/claude-code/marten.json) | custom theme file |
+| [Obsidian](#obsidian) | [`dist/obsidian/Marten/`](dist/obsidian/Marten) | community theme folder, dark mode only |
+| [Slack](#slack) | [`dist/slack/marten.txt`](dist/slack/marten.txt) | theme string to paste |
+| [Chrome](#chrome) | [`dist/chrome/marten/`](dist/chrome/marten) | unpacked theme extension |
 
-Clone the repository (or download the file you need from `dist/`), then follow the steps for your app. No build step is needed to use the themes.
+Clone the repository (or download the file you need from [`dist/`](https://github.com/vladbndko/marten-theme/tree/main/dist)), then follow the steps for your app from the repository folder. No build step is needed to use the themes.
+
+```bash
+git clone https://github.com/vladbndko/marten-theme.git
+cd marten-theme
+```
+
+Install pages and previews for every port: [vladbndko.github.io/marten-theme](https://vladbndko.github.io/marten-theme/).
 
 ### Ghostty
 
@@ -32,6 +44,12 @@ theme = marten
 
 Reload the config with <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>,</kbd> or restart Ghostty.
 
+### iTerm2
+
+Open **Settings → Profiles → Colors**, click **Color Presets… → Import…** and choose `dist/iterm2/marten.itermcolors`. Then pick **marten** from **Color Presets…**.
+
+The preset sets the 16 terminal colors, background, cursor, selection, links, the badge and search matches. Colors are written in sRGB.
+
 ### Neovim
 
 ```bash
@@ -47,16 +65,6 @@ vim.cmd.colorscheme("marten")
 
 The colorscheme has no dependencies. It covers the editor UI, legacy syntax groups, Treesitter, LSP (references, inlay hints, semantic tokens), diagnostics, gitsigns and the built-in terminal. It sets `termguicolors`.
 
-### Obsidian
-
-```bash
-cp -R dist/obsidian/Marten /path/to/your/vault/.obsidian/themes/
-```
-
-Then open **Settings → Appearance**, pick **Marten** under **Themes**, and set **Base color scheme** to **Dark**. In light mode Obsidian keeps its default colors.
-
-The theme sets the code font to Fira Code (`FiraCode Nerd Font`, then `Fira Code`, then your system monospace font). Callouts, tags and the graph view use the palette colors.
-
 ### Zed
 
 ```bash
@@ -69,6 +77,51 @@ Open the theme selector (<kbd>Cmd</kbd>+<kbd>K</kbd> <kbd>Cmd</kbd>+<kbd>T</kbd>
 ```json
 { "theme": { "mode": "system", "light": "One Light", "dark": "Marten" } }
 ```
+
+### VS Code
+
+The theme is an extension folder. Package it and install the result (needs Bun or Node):
+
+```bash
+cd dist/vscode/marten
+bunx @vscode/vsce package --skip-license --out ../marten.vsix
+code --install-extension ../marten.vsix
+```
+
+Then run **Preferences: Color Theme** from the Command Palette and choose **Marten**. The theme covers the workbench, the editor, git decorations, diffs, diagnostics, the terminal, and TextMate and semantic syntax.
+
+### Claude Code
+
+```bash
+mkdir -p ~/.claude/themes
+cp dist/claude-code/marten.json ~/.claude/themes/
+```
+
+Run `/theme` in Claude Code and choose **Marten**. If `~/.claude/themes` did not exist before, restart Claude Code once. The theme is built on the dark preset and sets Claude's orange, the prompt and mode colors, permission prompts, diffs with word highlights, and subagent colors.
+
+### Obsidian
+
+```bash
+cp -R dist/obsidian/Marten /path/to/your/vault/.obsidian/themes/
+```
+
+Then open **Settings → Appearance**, pick **Marten** under **Themes**, and set **Base color scheme** to **Dark**. In light mode Obsidian keeps its default colors.
+
+The theme sets the code font to Fira Code (`FiraCode Nerd Font`, then `Fira Code`, then your system monospace font). Callouts, tags and the graph view use the palette colors.
+
+### Slack
+
+Slack themes are pasted strings, not files.
+
+```bash
+pbcopy < dist/slack/marten.txt
+```
+
+In Slack open **Preferences → Appearance**, select **Custom theme**, click **Import theme** next to **Theme Colors** and paste. If Slack does not accept it, use the 8-color legacy string from `dist/slack/marten-legacy.txt` the same way.
+
+### Chrome
+
+Open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked** and choose `dist/chrome/marten`. To go back, open **Settings → Appearance** and click **Reset to default**. It also works in other Chromium browsers that support themes.
 
 ## Palette
 
@@ -121,13 +174,13 @@ Yellow is not the accent: yellow means warnings and modified files, orange means
 
 `bun run check` tests the palette before every release:
 
-- **Contrast.** All text colors are at least 4.5:1 on the background and on the current line. Hints, line numbers and colored text on the selection are at least 3:1. All 78 checked pairs pass.
+- **Contrast.** All text colors are at least 4.5:1 on the background and on the current line. Text on the selection and on diff word highlights is at least 4.5:1. Hints, line numbers and colored text on the selection are at least 3:1. All 80 checked pairs pass.
 - **Color-blind safety.** Pairs that must not be confused (error/success, error/warning, keyword/string, function/type and others) are simulated for protanopia, deuteranopia and tritanopia ([Machado et al., 2009](https://www.inf.ufrgs.br/~oliveira/pubs_files/CVD_Simulation/CVD_Simulation.html)) and compared by OKLab distance.
 
 Known issues, tracked in the palette file:
 
 - Under tritanopia, blue (functions, info) and cyan (types, hints) are close, and so are cyan and green (strings).
-- Under deuteranopia, the added and removed diff backgrounds are close. Diffs still show `+`/`-` markers and gutter signs.
+- Under deuteranopia, the added and removed diff backgrounds are close, and so are the word highlights inside them. Diffs still show `+`/`-` markers and gutter signs.
 
 ## Development
 
@@ -136,14 +189,14 @@ Requires [Bun](https://bun.sh). The themes have no other dependencies; only the 
 ```bash
 bun run build            # palettes/*.json → dist/
 bun run check            # contrast and color-blind checks
-bun run install-themes   # copy dist/ into Ghostty, Neovim and Zed; Obsidian needs OBSIDIAN_VAULT
+bun run install-themes   # copy dist/ into Ghostty, Neovim, Zed and Claude Code; Obsidian needs OBSIDIAN_VAULT
 ```
 
 ```bash
 OBSIDIAN_VAULT=~/path/to/vault bun run install-themes
 ```
 
-`install-themes` only copies files. It never changes which theme an app uses.
+`install-themes` only copies files. It never changes which theme an app uses. iTerm2, VS Code, Slack and Chrome are installed by hand, as described above.
 
 ### How it works
 

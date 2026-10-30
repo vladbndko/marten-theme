@@ -1,0 +1,15 @@
+{
+  "name": "marten-theme",
+  "displayName": "Marten",
+  "description": "A dark color theme of graphite, steel and molten metal.",
+  "version": "0.1.0",
+  "publisher": "vladbndko",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/vladbndko/marten-theme" },
+  "engines": { "vscode": "^1.70.0" },
+  "categories": ["Themes"],
+  "keywords": ["theme", "dark", "color-theme"],
+  "contributes": {
+    "themes": [{ "label": "Marten", "uiTheme": "vs-dark", "path": "./themes/marten-color-theme.json" }]
+  }
+}

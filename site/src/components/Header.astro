@@ -1,5 +1,5 @@
 ---
-import { href } from "../lib/theme";
+import { href, repo } from "../lib/theme";
 
 type Props = { current?: "ports" };
 const { current } = Astro.props;
@@ -15,6 +15,7 @@ const { current } = Astro.props;
       <a href={href("#palette")}>Palette</a>
       <a href={href("#ports")} aria-current={current === "ports" ? "page" : undefined}>Ports</a>
       <a href={href("#checks")}>Checks</a>
+      <a href={repo}>GitHub</a>
     </nav>
   </div>
 </header>

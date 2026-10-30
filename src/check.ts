@@ -17,6 +17,7 @@ const PAIRS: [string, string][] = [
   ["syntax.string", "syntax.type"],
   ["syntax.number", "syntax.string"],
   ["ui.diffAdded", "ui.diffRemoved"],
+  ["ui.diffAddedWord", "ui.diffRemovedWord"],
 ];
 
 type Row = { what: string; ok: boolean; known?: string; detail: string };
@@ -45,7 +46,7 @@ function contrastRows(p: Palette): Row[] {
   ];
   for (const bg of ["base.bg", "base.bgLine"]) for (const fg of text) test(fg, bg, MIN_TEXT);
   for (const fg of ["base.fgFaint", "ansi.brBlack", "ui.textFaint"]) test(fg, "base.bg", MIN_HINT);
-  test("base.fg", "base.selection", MIN_TEXT);
+  for (const bg of ["base.selection", "ui.diffAddedWord", "ui.diffRemovedWord"]) test("base.fg", bg, MIN_TEXT);
   for (const c of ANSI_TEXT) test(`ansi.${c}`, "base.selection", MIN_HINT);
   for (const bg of ["base.accent", "ansi.red", "ansi.green"]) test("base.bg", bg, MIN_TEXT);
   return rows;
@@ -65,7 +66,7 @@ function print(rows: Row[]): number {
     const mark = r.ok ? "ok   " : r.known ? "known" : "FAIL ";
     if (!r.ok && !r.known) failures++;
     if (r.ok && rows.length > 20) continue;
-    console.log(`  ${mark}  ${r.what.padEnd(36)} ${r.detail}${r.known ? `  - ${r.known}` : ""}`);
+    console.log(`  ${mark}  ${r.what.padEnd(40)} ${r.detail}${r.known ? `  - ${r.known}` : ""}`);
   }
   return failures;
 }
